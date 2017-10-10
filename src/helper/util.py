@@ -18,13 +18,11 @@ def isThisCorrect():
 
 def print_character(character):
   print("Name: {0}".format(character.name))
-  print("Class: {0}".format(character.type))
   print("Attributes:")
   print("\tStrength: {0}".format(character.strength))
   print("\tAgility: {0}".format(character.agility))
   print("\tSpeed: {0}".format(character.speed))
   print("\tDefense: {0}".format(character.defense))
-  print("\tSpecial Skill: {0}".format(character.special))
 
 def load_player(savefile):
   fp = open(savefile, "r")

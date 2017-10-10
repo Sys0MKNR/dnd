@@ -1,12 +1,13 @@
+#!/usr/bin/env python3.5
 import json
 import helper.util as util
-from helper.State import State
+from helper.StateHandler import StateHandler
 from game.player import Player
+from game.gamedata import GameData
+from helper.State import State
 
 # define States
 START, STRENGTH, AGILITY, SPEED, DEFENSE, CONFIRM, STORE = range(7)
-
-
 
 def askForStat(stat):
     while True:
@@ -100,13 +101,7 @@ class Defense (State):
 class Confirm (State):
     def run(self, gamedata):
         print("Before you store your character please confirm your stats!")
-        print("Name: {0}".format(gamedata.player.name))
-        print("Attributes:")
-        print("\tStrength: {0}".format(gamedata.player.strength))
-        print("\tAgility: {0}".format(gamedata.player.agility))
-        print("\tSpeed: {0}".format(gamedata.player.speed))
-        print("\tDefense: {0}".format(gamedata.player.defense))
-
+        util.print_character(gamedata.player)
         while True:
             try:
                 correct = util.isThisCorrect()
@@ -144,3 +139,30 @@ States = {
     'Confirm': Confirm(),
     'Store': Store()
 }
+
+class Quit(State):
+    def run(self, gamedata):
+        return None, gamedata
+
+    def next(self, x):
+        pass
+
+
+class Handler(StateHandler):
+    def __init__(self, gamedata):
+        statesList = list(States.values())
+        StateHandler.__init__(self, States["Start"], statesList,
+                              Quit(), gamedata)
+
+class CreateChar():
+    def run(self, gamedata):
+        try:
+            Handler(gamedata).run()
+            return True, gamedata
+        except:
+            return False, gamedata
+        
+
+if __name__ == '__main__':
+    gamedata = GameData()
+    Handler(gamedata).run()

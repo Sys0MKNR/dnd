@@ -3,6 +3,7 @@
 import argparse
 import helper.util as util
 import json
+from game.g import Game
 
 from game.player import Player
 from game.gamedata import GameData
@@ -14,5 +15,5 @@ if __name__ == '__main__':
   parser.set_defaults(create_player=False)
   args = parser.parse_args()
   
-  print(args)
+  Game(args)
   #your code goes here
