@@ -5,5 +5,9 @@ class Item:
     self.name = ""
     self.price = 0
     self.influenced_attribute = ""
-    self.value = 0 
+    self.value = 0
+    self.type = ""
     self.__dict__.update(item)
+
+
+

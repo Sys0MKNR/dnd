@@ -5,7 +5,6 @@ from states.createChar import CreateChar
 from game.gamedata import GameData
 
 
-
 class Game():
     def __init__(self, args):
         print(args)
@@ -16,7 +15,7 @@ class Game():
             try:
                 gamedata.player = util.load_player(args.savefile)
             except IOError:
-                print("Error while loading the player. This is probably happens because of a wrong filepath.")
+                print("Error while loading the player. This probably happens because of a wrong filepath.")
                 return
         else:
             try:

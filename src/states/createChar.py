@@ -18,13 +18,10 @@ def askForStat(stat):
             pass
 
 def checkStatPoints(player):
-    if (player.strength + player.agility + player.speed + player.defense) <= 100:
+    if (player.attributes.strength + player.attributes.agility + player.attributes.speed + player.attributes.defense) <= 100:
         return True
     else:
         return False
-
-def getStates():
-    return States
 
 class Start(State):
     def run(self, gamedata):
@@ -59,7 +56,7 @@ class Start(State):
 class Strength (State):
     def run(self, gamedata):
         print("You have 100 points to assign to your character.\n Start now to assign those Points to your characters strength, agility, speed and defense.")
-        gamedata.player.strength = askForStat("Strength")
+        gamedata.player.attributes.strength = askForStat("Strength")
         return AGILITY, gamedata
       
     def next(self, next_state):
@@ -67,7 +64,7 @@ class Strength (State):
 
 class Agility (State):
     def run(self, gamedata):
-        gamedata.player.agility = askForStat("Agility")
+        gamedata.player.attributes.agility = askForStat("Agility")
         return SPEED, gamedata
       
     def next(self, next_state):
@@ -75,7 +72,7 @@ class Agility (State):
 
 class Speed (State):
     def run(self, gamedata):
-        gamedata.player.speed = askForStat("Speed")
+        gamedata.player.attributes.speed = askForStat("Speed")
         return DEFENSE, gamedata
       
     def next(self, next_state):
@@ -83,10 +80,8 @@ class Speed (State):
 
 class Defense (State):
     def run(self, gamedata):
-        gamedata.player.defense = askForStat("Defense")
-        print(gamedata.player.defense)
+        gamedata.player.attributes.defense = askForStat("Defense")
         if(checkStatPoints(gamedata.player)):
-            gamedata.player.gold = 100
             return CONFIRM, gamedata
         else:
             print("Sorry it seems like you spent more than 100 abillity points on your character... try that again!")

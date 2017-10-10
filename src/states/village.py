@@ -43,6 +43,7 @@ class Choose (State):
         try:
             value = int(input("> "))
             if value == 0:
+                pass
             elif value == 1:
                 pass
             elif value >= 2 and value <=4:
@@ -121,6 +122,7 @@ class Village():
             return True, gamedata
         except:
             return False, gamedata
+
 
 if __name__ == '__main__':
     gamedata = GameData()

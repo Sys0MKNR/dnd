@@ -1,0 +1,70 @@
+{
+    "items": [
+        {
+            "name": "Potion",
+            "price": 5,
+            "influenced_attribute": "hp",
+            "value": 10,
+            "type": "potion"
+        },
+        {
+            "name": "Bottle of Rum",
+            "price": 15,
+            "influenced_attribute": "hp",
+            "value": 40,
+            "type": "potion"
+        },
+        {
+            "name": "Beer",
+            "price": 10,
+            "influenced_attribute": "strength",
+            "value": 4,
+            "type": "potion"
+        },
+        {
+            "name": "Antidote",
+            "price": 15,
+            "influenced_attribute": "defense",
+            "value": 6,
+            "type": "potion"
+        },
+        {
+            "name": "Chest",
+            "price": 5,
+            "influenced_attribute": "defense",
+            "value": 2,
+            "type": "gear"
+        },
+        {
+            "name": "Sword",
+            "price": 10,
+            "influenced_attribute": "strength",
+            "value": 4,
+            "type": "gear"
+        },
+        {
+            "name": "Helmet",
+            "price": 15,
+            "influenced_attribute": "defense",
+            "value": 6,
+            "type": "gear"
+        }
+    ],
+    "villager": [
+        {
+            "name": "Druid",
+            "action": "sell",
+            "items": "gear"
+        },
+        {
+            "name": "Smith",
+            "action": "sell",
+            "items": "potions"
+        },
+        {
+            "name": "Retailer",
+            "action": "buy",
+            "items:": "all"
+        }
+    ]
+}
