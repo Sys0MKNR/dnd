@@ -1,80 +1,40 @@
 #!/usr/bin/env python3.5
+
 import helper.util as util
 from helper.StateHandler import StateHandler
-from game.player import Player
-from game.gamedata import GameData
 from helper.State import State
-from game.item import Item
-from game.inventory import Inventory
-from states.createChar import CreateChar
+from game.gamedata import GameData
+from game.inventory import InventoryItem
 
-# define States
 START, LIST, CHOOSE = range(3)
 
-
-class Retailer():
-    def __init__(self, gamedata):
-        print("Welcome to the Retailer {0}!".format(gamedata.player.name))
-        while True:
-            inventory = gamedata.player.inventory
-            if inventory.items:
-                print("This is what I would pay for your Items:")
-                for item in inventory.items:
-                    print("* {0} for {1} gold".format(item.name, int(item.price*0.5)))
-                print("You have {0} gold.".format(gamedata.player.gold)) 
-                print("Type 'quit' or the name of the item you want to sell:")
-
-                itemName = input("> ")
-
-                if itemName == 'quit':
-                    break
-                elif inventory.isItemInInventory(itemName):
-                    gold = gamedata.player.inventory.sell(itemName)
-                    gamedata.player.gold += gold
-                    print("You have choosen {0}.\n You now have {1} gold.\n Removed item from Inventory.".format(itemName, gamedata.player.gold ))
-                else: 
-                    print("You dont own this item.")
-                    continue
-                            
-            else: 
-                print("Sorry, you have nothing to sell,\n Thanks for visiting!")
-                break
-#gear and potions
-class SellNPC():
-    def __init__(self, gamedata, sells):
-        print("Welcome to the store {0}!\n You have {1} gold to spend for {2}. This is what I'm selling:".format(gamedata.player.name, gamedata.player.gold, sells))
-        
-        items = [x for x in gamedata.items if x.type == sells]
-        
-        while True:          
-            for item in items:
-                print("* {0} for {1} gold +{2} {3}".format(item.name, item.price, item.value, item.influenced_attribute))
-            print("You have {0} gold.".format(gamedata.player.gold)) 
-            print("Type 'quit' or the name of the item you want to buy:")
-
-            itemName = input("> ")
-
-            if itemName == 'quit':
-                break
-            else:
-                for item in items:
-                    print(item)
-                    if item.name == itemName:
-                        gold = gamedata.player.inventory.buy(item)
-                        if (gamedata.player.gold - gold) >= 0:
-                            gamedata.player.gold -= gold
-                            print("You have choosen {0}.\n You  have {1} gold left.".format(itemName, gamedata.player.gold ))
-                        else: 
-                            print("You dont have enough gold for this item!")
-                        break
-                    else:                                      
-                        print("I dont sell this item.")
-        print("Thanks for visiting!")             
+def parseParams(params, gamedata, item=None):
+    arr = []
+    for param in params:
+        obj, attribute = param.split(".")
+        if obj == 'player':
+            arr.append(getattr(gamedata.player, attribute))
+        elif obj == 'item':
+            if isinstance(item, InventoryItem):
+                item = item.item
+            arr.append(getattr(item, attribute))
+    return arr
 
 
+class VillagerActions:
+    @staticmethod
+    def buy(gamedata, item):
+        item = item.item
+        return gamedata.player.sell_item(item, int(item.price*0.5))
+    @staticmethod
+    def sell(gamedata, item):
+       return gamedata.player.buy_item(item)
+       
 
 class Start(State):
     def run(self, gamedata):
+        welcome = gamedata.activeVillager['welcome']
+        print(welcome['text'].format(*parseParams(welcome['params'], gamedata)))      
         return LIST, gamedata
 
     def next(self, next_state):
@@ -83,10 +43,22 @@ class Start(State):
 
 class List(State):
     def run(self, gamedata):
-        print("Choose a Villager.")
-        print("1 Retailer")
-        print("2 Druid")
-        print("3 Smith")
+        
+        villager = gamedata.activeVillager
+        print(villager['listmsg'])
+        items = []
+
+        if villager['action'] == "buy":
+            items = gamedata.player.inventory.items
+  
+        elif villager['action'] == "sell":
+            items = items if villager['items'] == 'all' else [item for item in gamedata.items if item.type == villager['items']]
+
+        gamedata.activeVillager['itemObjs'] = items
+
+        for item in items:
+            print(villager['list']['text'].format(*parseParams(villager['list']['params'], gamedata, item)))
+
         return CHOOSE, gamedata
 
     def next(self, next_state):
@@ -95,23 +67,23 @@ class List(State):
 
 class Choose(State):
     def run(self, gamedata):
-        
-        try:
-            value = int(input("> "))
-            
-            if value == 1:
-                Retailer(gamedata)
-            elif value == 2:
-                SellNPC(gamedata, "potion")
-            elif value == 3:
-                SellNPC(gamedata, "gear")
+        villager = gamedata.activeVillager
+        print(villager['choose'])
+        success, item = util.validate_item_input(villager['itemObjs'])
+
+        if success:
+            success = getattr(VillagerActions, villager['action'])(gamedata, item) 
+            if success: 
+                print(villager['success']['text'].format(*parseParams(villager['success']['params'], gamedata, item)))
             else:
-                return LIST, gamedata
-
-        except ValueError:
+                print(villager['error']['text'].format(*parseParams(villager['error']['params'], gamedata, item)))
+            
             return LIST, gamedata
-        return None, gamedata
-
+        elif not success and item == 'quit':
+            return None, gamedata
+        else:
+            return LIST, gamedata
+    
     def next(self, next_state):
         if next_state == LIST:
             return States['List']
@@ -120,9 +92,11 @@ class Choose(State):
 
 class Quit (State):
     def run(self, gamedata):
+        gamedata.activeVillager = None
         return None, gamedata
     def next(self, next_state):
         pass
+
 
 States = {
     'Start': Start(),
@@ -130,23 +104,35 @@ States = {
     'Choose': Choose()
 }
 
+
 class Handler(StateHandler):
     def __init__(self, gamedata):
         statesList = list(States.values())
-        StateHandler.__init__(self, States["Start"], statesList,
+        StateHandler.__init__(self, States['Start'], statesList,
                               Quit(), gamedata)
 
+
+def set_active_villager(gamedata, name):
+    gamedata.activeVillager = [v for v in gamedata.village['villager'] if v['name'] == name][0]
+    return gamedata
+
 class Villager():
-    def run(self, gamedata):
+    def run(self, gamedata, name):
         try:
-            Handler(gamedata).run()
+            gamedata = set_active_villager(gamedata, name)
+            gamedata = Handler(gamedata).run()
+            print(gamedata.player.gold)
             return True, gamedata
-        except:
+        except Exception as e:
+            print(e)
             return False, gamedata
+
 
 if __name__ == '__main__':
     gamedata = GameData()
-    gamedata.player = util.load_player('p_items.json')
-    success, gamedata = Villager().run(gamedata)
-    # SellNPC(gamedata, "gear")
-    # Retailer(gamedata)
+    gamedata.player = util.load_player('player.json')
+    gamedata.activeVillager = gamedata.village['villager'][1]
+    gamedata = Handler(gamedata).run()
+    print(gamedata.player.gold)
+    # print(gamedata.activeVillager)
+    # List().run(gamedata)

@@ -18,11 +18,9 @@ class Game():
                 print("Error while loading the player. This probably happens because of a wrong filepath.")
                 return
         else:
-            try:
-                gamedata.player = util.load_player("player.json")
-            except IOError:
-                print("Error while loading the player.")
-                return 
+            print("usage: python3.5 main.py [--savefile SAVEFILE] [--create-player]")
+            return
+
+        Village.
+
         
-        while True:
-            break

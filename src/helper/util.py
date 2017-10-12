@@ -4,10 +4,11 @@ import json
 from game.player import Player
 from game.item import Item
 from game.inventory import Inventory
+from game.inventory import InventoryItem
 from game.attributes import Attributes
 
 
-def isThisCorrect():
+def is_this_correct():
   print("Is this correct? (Y/N)")
   value = input()
   if value.lower() == "y":
@@ -16,6 +17,38 @@ def isThisCorrect():
     return False
   else:
     raise ValueError("invalid")
+
+def validate_input(objectType, recursive, length, startString="> "):
+  try:
+    valueString = input(startString)
+    if length and len(valueString) > length :
+      if recursive: 
+        return validate_input(objectType, recursive, length, startString)
+      else:
+        return False, None 
+    else:
+      value = objectType(valueString)
+      return True, value
+      
+  except (ValueError, TypeError): 
+    if recursive: 
+      return validate_input(objectType, recursive, length, startString)
+    else:
+      return False, None  
+
+def validate_item_input(items):
+  success, string = validate_input(str, False, None)
+  if string == 'quit':
+    return False, string
+  activeItem = None
+  if success:
+    for item in items:
+      if item.name == string:
+        activeItem = item
+        break
+    if activeItem:
+      return True, activeItem
+  return False, None
 
 
 def print_character(character):
@@ -26,31 +59,31 @@ def print_character(character):
   print("\tSpeed: {0}".format(character.attributes.speed))
   print("\tDefense: {0}".format(character.attributes.defense))
 
-
 def load_data(savefile="data.json"):
   fp = open(savefile, "r")
   items = json.load(fp)
   fp.close()
   return items
 
+def load_village(savefile="data.json"):
+  village = load_data(savefile)['village']
+  return village
+
 def load_items(savefile="data.json"):
   data = load_data(savefile)
   items = []
   for item in data['items']:
     items.append(Item(**item))
-
   return items
 
-def load_player(savefile):
+def load_player(savefile="player.json"):
   fp = open(savefile, "r")
   player = Player(**json.load(fp))
   fp.close()
   inventory = Inventory()
-  for item in player.inventory['items']:
-    inventory.add(Item(**item))  
-
+  for inventoryItem in player.inventory['items']:
+    inventory.add(Item(**inventoryItem['item']), inventoryItem['amount']) 
   player.inventory = inventory
-  player.attributes = Attributes(**player.attributes)
   return player
 
 
@@ -62,8 +95,8 @@ class CustomEncoder(json.JSONEncoder):
       return obj.__dict__
     if isinstance(obj, Inventory):
       return obj.__dict__
-    if isinstance(obj, Attributes):
-      return obj.__dict__
+    if isinstance(obj, InventoryItem):
+      return obj.__dict__  
     else:
       return json.JSONEncoder.default(self,obj)
 
@@ -71,5 +104,9 @@ class CustomEncoder(json.JSONEncoder):
   
 
 if __name__ == '__main__':
-  # print(load_player('p_items.json').inventory.items[0].name)
-  print(load_items()[5].name)
+  pass
+  # print(load_player('p_items.new.json').inventory.items[0].item.name)
+  # player = load_player('player.json')
+  # print(player.inventory.items[0].item.item.name)
+  # print(load_items()[5].name)
+

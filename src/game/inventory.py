@@ -3,32 +3,25 @@ class Inventory():
     def __init__(self, items=[]):
         self.items = items
 
-    def sell(self, item):
-        if isinstance(item, str):
-            for x in self.items:
-                if x.name == item:
-                    item = x
-        
-        self.items.remove(item)
-        return int(item.price*0.5)
+    def add(self, newItem, amount=1):
+        found = False
+        for i, item in enumerate(self.items):
+            if item.name == newItem.name:
+                found = True
+                self.items[i].amount += 1            
+        if not found:
+            self.items.append(InventoryItem(newItem, amount))
     
-    def buy(self, item):   
-        self.items.append(item)
-        return item.price
+    def remove(self, newItem):
+        for i, item in enumerate(self.items):
+            if item.name == newItem.name:
+                self.items[i].amount -= 1  
+                if self.items[i].amount <= 0:
+                    del self.items[i]      
 
-    def add(self, item):
-        self.items.append(item)
 
-    def use(self, item):
-        self.items.remove(item) 
-        return item.value
-    
-    def drop(self, item):
-        self.items.remove(item) 
-
-    def isItemInInventory(self, itemName):
-        for item in self.items:
-            if item.name == itemName:
-                return True
-        return False
-        
+class InventoryItem():
+    def __init__(self, item, amount):
+        self.item = item
+        self.amount = amount
+        self.name = item.name

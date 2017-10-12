@@ -1,16 +1,24 @@
 #!/usr/bin/env python3.5
 import json
+import sys
 import helper.util as util
 from helper.StateHandler import StateHandler
 from game.player import Player
 from game.gamedata import GameData
 from helper.State import State
+from states.villager import Villager
+
 
 # define States
 START, LIST, CHOOSE, SAVE, QUIT = range(5)
 
-#States of choose
-# DUNGEON = range(1)
+
+def parseParams(params, gamedata):
+    for i, param in enumerate(params):
+        if param == 'standard':
+            params[i] = gamedata
+    
+    return params
 
 
 class Start (State):
@@ -24,13 +32,9 @@ class Start (State):
 class List (State):
     def run(self, gamedata):
         print("Your destinations are:")
-        print("0\tDungeon")
-        print("1\tInventory")
-        print("2\tRetailer")
-        print("3\tSmith")
-        print("4\tDruid")
-        print("5\tSave")
-        print("6\tQuit")
+
+        for key, opt in sorted(gamedata.village['opts'].items()):
+            print("{0}\t{1}".format(key, opt["name"]))        
 
         return CHOOSE, gamedata
         
@@ -40,42 +44,44 @@ class List (State):
 
 class Choose (State):
     def run(self, gamedata):
-        try:
-            value = int(input("> "))
-            if value == 0:
-                pass
-            elif value == 1:
-                pass
-            elif value >= 2 and value <=4:
-                pass
-            elif value == 5:
-                return SAVE, gamedata
-            elif value == 6:
-                return QUIT, gamedata
-            else:
-                return LIST, gamedata
+        success, value = util.validate_input(str, False, 1,)
+        print(success)
+        if success:
+            opt = gamedata.village['opts'][value]
+            if(opt['class']):                    
+                c = getattr(sys.modules[__name__], opt['class'])
+                print(c)
+                success, gamedata = c().run(*parseParams(opt['params'], gamedata))
+            else: 
+                return getattr(sys.modules[__name__], opt['callback']), gamedata
             
-        except ValueError as err:
-            return LIST, gamedata
+            print(gamedata.player.gold)
+            return START, gamedata    
+        else:
+            return START, gamedata            
+            
         
     def next(self, next_state):
         if next_state == SAVE:
             return States['Save']
         elif next_state == QUIT:
             return States['Quit']
-        elif next_state == LIST:
-            return States['List']
+        elif next_state == START:
+            return States['Start']
 
 class Save(State):
     def run (self, gamedata):
         try:
             with open("player.json", "w") as outfile:
                 json.dump(gamedata.player, outfile, cls=util.CustomEncoder)
-            return LIST, gamedata
+            
         except IOError:
             print("Could not save game data!")
-        else:
+
+        if gamedata.quitting:
             return None, gamedata
+        else:
+            return LIST, gamedata
              
     def next(self, next_state):
         if(next_state == LIST):
@@ -88,11 +94,15 @@ class Quit (State):
         print("Do you want to save the game before exiting? (Y/N)")
         value = input()
         if value.lower() == "y":
+            gamedata.quitting = True
             return SAVE, gamedata
         else:
             return None, gamedata
     def next(self, next_state):
-        pass
+        if next_state == SAVE:
+            return States['Save']
+        else: 
+            pass
 
 class End (State):
     def run(self, gamedata):
@@ -108,7 +118,6 @@ States = {
     'Quit': Quit()
 }
 
-
 class Handler(StateHandler):
     def __init__(self, gamedata):
         statesList = list(States.values())
@@ -118,12 +127,14 @@ class Handler(StateHandler):
 class Village():
     def run(self, gamedata):
         try:
-            Handler(gamedata).run()
+            gamedata = Handler(gamedata).run()
             return True, gamedata
-        except:
+        except Exception as err:
+            print(err)
             return False, gamedata
 
 
 if __name__ == '__main__':
     gamedata = GameData()
+    gamedata.player = util.load_player()
     Handler(gamedata).run()

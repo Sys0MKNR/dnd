@@ -1,4 +1,131 @@
 {
+    "village": {
+        "opts": {
+            "0": {
+                "name": "Dungeon",
+                "class": "Dungeon",
+                "action": "run",
+                "params": ["standard"],
+                "callback": "START"
+            },
+            "1": {
+                "name": "Inventory",
+                "class": "",
+                "action": "open",
+                "params": "standard"
+            },
+            "2": {
+                "name": "Retailer",
+                "class": "Villager",
+                "action": "run",
+                "params": ["standard","Retailer"],
+                "callback": "START"
+            },
+            "3": {
+                "name": "Smith",
+                "class": "Villager",
+                "action": "run",
+                "params": ["standard", "Smith"],
+                "callback": "START"
+            },
+            "4": {
+                "name": "Druid",
+                "class": "Villager",
+                "action": "run",
+                "params": ["standard", "Druid"],
+                "callback": "START"
+            },
+            "5": {
+                "name": "Save",
+                "class": null,
+                "action": null,
+                "params": [],
+                "callback": "SAVE"
+            },
+            "6": {
+                "name": "Quit",
+                "class": null,
+                "action": null,
+                "params": [],
+                "callback": "QUIT"
+            }
+        },
+        "villager": [
+            {
+                "name": "Druid",
+                "action": "sell",
+                "items": "potion",
+                "welcome": {
+                    "text": "Welcome to the store {0}!\nYou have {1} gold to spend on magic potions.",
+                    "params": ["player.name", "player.gold"]
+                },
+                "choose": "Type 'quit' or the name of the item you want to buy:",
+                "listmsg": "This is what I'm selling:",
+                "list": {
+                    "text": "{0}\t{1} gold +{2} {3}",
+                    "params": ["item.name", "item.price", "item.value", "item.influenced_attribute"]
+                },
+                "success": {
+                    "text": "You have choosen {0}. You have {1} gold left.",
+                    "params": ["item.name", "player.gold"]
+                },
+                "error": {
+                    "text": "You dont have enough gold left. You have {0} gold left.",
+                    "params": ["player.gold"]
+                },
+                "leave": "Thanks for visiting!"
+            },
+            {
+                "name": "Smith",
+                "action": "sell",
+                "items": "gear",
+                "welcome": {
+                    "text": "Welcome to the store {0}!\nYou have {1} gold to spend on gear. ",
+                    "params": ["player.name", "player.gold"]
+                },
+                "listmsg": "This is what I'm selling:",
+                "list": {
+                    "text": "{0}\t{1} gold +{2} {3}",
+                    "params": ["item.name", "item.price", "item.value", "item.influenced_attribute"]
+                },
+                "choose": "Type 'quit' or the name of the item you want to buy:",
+                "success": {
+                    "text": "You have choosen {0}. You have {1} gold left.",
+                    "params": ["item.name", "player.gold"]
+                },
+                "error": {
+                    "text": "You dont have enough gold left. You have {0} gold left.",
+                    "params": ["player.gold"]
+                },
+                "leave": "Thanks for visiting!"
+            },
+            {
+                "name": "Retailer",
+                "action": "buy",
+                "items:": "all",
+                "welcome": {
+                    "text": "Welcome to the Retailer {0}! \nYou have {1} gold.",
+                    "params": ["player.name", "player.gold"]
+                },
+                "listmsg": "This is what I would pay for your Items:",
+                "list": {
+                    "text": "* {0}\tfor\t{1} gold",
+                    "params": ["item.name", "item.price"]
+                },
+                "choose": "Type 'quit' or the name of the item you want to sell:",
+                "success": {
+                    "text": "You have choosen {0}.\n You now have {1} gold.\n Removed item from Inventory.",
+                    "params": ["item.name", "player.gold"]
+                },
+                "error": {
+                    "text": "Sorry, you have nothing to sell",
+                    "params": ["player.gold"]
+                },
+                "leave": "Thanks for visiting!"
+            }
+        ]
+    },
+   
     "items": [
         {
             "name": "Potion",
@@ -48,23 +175,6 @@
             "influenced_attribute": "defense",
             "value": 6,
             "type": "gear"
-        }
-    ],
-    "villager": [
-        {
-            "name": "Druid",
-            "action": "sell",
-            "items": "gear"
-        },
-        {
-            "name": "Smith",
-            "action": "sell",
-            "items": "potions"
-        },
-        {
-            "name": "Retailer",
-            "action": "buy",
-            "items:": "all"
         }
     ]
 }

@@ -6,3 +6,6 @@ class GameData:
   def __init__(self, **gamedata):
     self.player = None
     self.items = util.load_items()
+    self.village = util.load_village()
+    self.activeVillager = None
+    self.quitting = False
