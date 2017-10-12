@@ -50,7 +50,9 @@ class Player:
     def drop_item(self, item):
         self.inventory.remove(item)
         return True
-
+    
+    def add_item(self, item):
+        self.inventory.add(item)
     
     def replace_gear(self, item):
         print(self.gear)

@@ -67,3 +67,30 @@ das dorf ist der main Statehandler
 3. choose item
 4. success/error
 5. restart
+
+
+
+
+# fight
+
+mehrere Gegner Typen
+    orc 
+    witch
+    human
+    nord
+    nazi-zombie
+    unicorn
+
+speed entscheidet wer als erstes angreift
+
+agility: 
+    doppelt so viel agility wie gegner 50 % ausweichwahrscheinlichkeit
+    3 mal so viel 100% 
+    
+    (200 - 2 )/22
+
+strength == schaden
+
+defense == schadensresistennz => tatsächlicher schaden = strength - defense
+
+defense wird jede rund um 25% weniger

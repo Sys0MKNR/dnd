@@ -9,3 +9,4 @@ class GameData:
     self.village = util.load_village()
     self.activeVillager = None
     self.quitting = False
+    self.dungeon = None

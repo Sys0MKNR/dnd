@@ -180,5 +180,11 @@
             "type": "gear",
             "gearType": "head"
         }
-    ]
+    ],
+    "dungeon": {
+        "texts": [
+            "It is a fucking dungeon. What did you expect? Narnia?",
+            "Also a dungeon."
+        ]
+    }
 }
