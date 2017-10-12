@@ -2,7 +2,8 @@
 
 class Gear():
     def __init__(self, **gear):
-        self.helmet = None
-        self.chest = None
-        self.sword = None
-        self.__dict__.update(player)
+        self.head = None
+        self.body = None
+        self.leg = None
+        self.weapon = None
+        self.__dict__.update(gear)

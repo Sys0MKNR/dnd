@@ -48,13 +48,19 @@ class Choose (State):
         print(success)
         if success:
             opt = gamedata.village['opts'][value]
-            if(opt['class']):                    
-                c = getattr(sys.modules[__name__], opt['class'])
-                print(c)
-                success, gamedata = c().run(*parseParams(opt['params'], gamedata))
-            else: 
-                return getattr(sys.modules[__name__], opt['callback']), gamedata
-            
+            try:
+                if opt['obj']:
+                    getattr(gamedata.player, opt['action'])()
+
+            except KeyError as err:
+
+                if(opt['class']):                    
+                    c = getattr(sys.modules[__name__], opt['class'])
+                    success, gamedata = c().run(*parseParams(opt['params'], gamedata))    
+        
+                else: 
+                    return getattr(sys.modules[__name__], opt['callback']), gamedata               
+                
             print(gamedata.player.gold)
             return START, gamedata    
         else:

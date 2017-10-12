@@ -6,6 +6,7 @@ from game.item import Item
 from game.inventory import Inventory
 from game.inventory import InventoryItem
 from game.attributes import Attributes
+from game.gear import Gear
 
 
 def is_this_correct():
@@ -53,7 +54,6 @@ def validate_item_input(items):
 
 def print_character(character):
   print("Name: {0}".format(character.name))
-  print("Attributes:")
   print("\tStrength: {0}".format(character.attributes.strength))
   print("\tAgility: {0}".format(character.attributes.agility))
   print("\tSpeed: {0}".format(character.attributes.speed))
@@ -84,6 +84,13 @@ def load_player(savefile="player.json"):
   for inventoryItem in player.inventory['items']:
     inventory.add(Item(**inventoryItem['item']), inventoryItem['amount']) 
   player.inventory = inventory
+   
+  gearTypes = {}
+  for key, value in player.gear.items():
+    gearTypes[key] = Item(**value) if value else None 
+
+  player.gear = Gear(**gearTypes)
+
   return player
 
 
@@ -96,6 +103,8 @@ class CustomEncoder(json.JSONEncoder):
     if isinstance(obj, Inventory):
       return obj.__dict__
     if isinstance(obj, InventoryItem):
+      return obj.__dict__  
+    if isinstance(obj, Gear):
       return obj.__dict__  
     else:
       return json.JSONEncoder.default(self,obj)

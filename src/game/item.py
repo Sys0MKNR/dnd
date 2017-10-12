@@ -7,7 +7,7 @@ class Item:
     self.influenced_attribute = ""
     self.value = 0
     self.type = ""
-    self.amount = 0
+    self.gearType = ""
     self.__dict__.update(item)
 
 

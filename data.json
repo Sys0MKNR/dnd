@@ -10,9 +10,10 @@
             },
             "1": {
                 "name": "Inventory",
-                "class": "",
-                "action": "open",
-                "params": "standard"
+                "class": null,
+                "obj": "player",
+                "action": "open_inventory",
+                "params": ["standard"]
             },
             "2": {
                 "name": "Retailer",
@@ -160,21 +161,24 @@
             "price": 5,
             "influenced_attribute": "defense",
             "value": 2,
-            "type": "gear"
+            "type": "gear",
+            "gearType": "body"
         },
         {
             "name": "Sword",
             "price": 10,
             "influenced_attribute": "strength",
             "value": 4,
-            "type": "gear"
+            "type": "gear",
+            "gearType": "weapon"
         },
         {
             "name": "Helmet",
             "price": 15,
             "influenced_attribute": "defense",
             "value": 6,
-            "type": "gear"
+            "type": "gear",
+            "gearType": "head"
         }
     ]
 }
