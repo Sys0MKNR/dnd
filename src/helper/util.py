@@ -79,12 +79,17 @@ def load_player(savefile="player.json"):
   fp = open(savefile, "r")
   player = Player(**json.load(fp))
   fp.close()
+ 
   inventory = Inventory()
   for inventoryItem in player.inventory['items']:
     inventory.add(Item(**inventoryItem['item']), inventoryItem['amount']) 
   player.inventory = inventory
-  
-  print(player.gear)
+
+  villageChest = Inventory()
+  for inventoryItem in player.villageChest['items']:
+    villageChest.add(Item(**inventoryItem['item']), inventoryItem['amount']) 
+  player.villageChest = villageChest
+
   gearTypes = {}
   for key, value in player.gear.items():
     gearTypes[key] = Item(**value) if value else None 
@@ -110,12 +115,4 @@ class CustomEncoder(json.JSONEncoder):
       return json.JSONEncoder.default(self,obj)
 
 
-  
-
-if __name__ == '__main__':
-  pass
-  # print(load_player('p_items.new.json').inventory.items[0].item.name)
-  # player = load_player('player.json')
-  # print(player.inventory.items[0].item.item.name)
-  # print(load_items()[5].name)
 

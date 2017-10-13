@@ -52,7 +52,6 @@ class List(State):
   
         elif villager['action'] == "sell":
             items = items if villager['items'] == 'all' else [item for item in gamedata.items if item.type == villager['items']]
-            print(villager)
             if gamedata.bonus and villager['name'] == 'Druid':
                 items = items + [item for item in gamedata.items if item.type == 'special']
 

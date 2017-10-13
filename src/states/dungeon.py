@@ -1,5 +1,6 @@
 
 import random
+import copy
 import helper.util as util
 from helper.StateHandler import StateHandler
 from helper.State import State
@@ -208,7 +209,9 @@ class Fight(State):
                                 break
                 else: 
                     print("You didn't hit the enemy.")
+
         if dead: 
+            gamedata.graveDigger = copy.deepcopy(gamedata.player.inventory)
             gamedata.dungeon = None
             gamedata.player.inventory = Inventory()
             gamedata.player.gear = Gear()
@@ -255,9 +258,6 @@ class Exit(State):
         return None, gamedata
     def next(self, next_state):
         pass   
-
-
-
 
 
 States = {

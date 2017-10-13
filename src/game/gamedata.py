@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.5
 
 import helper.util as util
+from game.inventory import Inventory
 
 class GameData:
   def __init__(self, **gamedata):
@@ -11,3 +12,4 @@ class GameData:
     self.quitting = False
     self.dungeon = None
     self.bonus = False
+    self.graveDigger = Inventory()

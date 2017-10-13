@@ -234,11 +234,16 @@
             "price": 100,
             "type": "special"
         }
+        
     ],
     "dungeon": {
         "texts": [
-            "It is a fucking dungeon. What did you expect? Narnia?",
-            "Also a dungeon."
+            "Welcome to the Town Mine.\n It is a good spot for grinding. Why don't you take a closer look inside and don't forget to take your light with you, because it's dangerous to go alone.",
+            "Welcome to the Ice Palace.\nPeople say that there are penguins inside, do we need a disguise or can we kill every living object inside? It's up to you.",
+            "Welcome to the Icy Path.\nA slidy and rising ice path that leads to a big palace. What person is crazy enough to go up there? Wait you, no no no no, don't even think about it. Hey wait, I said WAI . . .",
+            "Welcome to the Castle.\nA old castle in the middle of nowhere. Maybe people are inside. Nobody knows.",
+            "Welcome to the Main Street.\nWhat information do you need about the MAIN street? For not so brain activ people: 'It leads to the capital'",
+            "Welcome to Not Narnia.\n This sadly isnt Narnia also not Hogwarts but here are trees too and lakes and you can also die."
         ],
         "enemies": {
             "orc": {
@@ -262,8 +267,8 @@
                 "to": 18
             },
             "Unicorn": {
-                "from": 25,
-                "to": 30
+                "from": 20,
+                "to": 25
             }
         }
     }

@@ -21,6 +21,7 @@ class Player:
         self.inventory = Inventory()
         self.gear = Gear()
         self.hits = 0
+        self.villageChest = Inventory()
         self.__dict__.update(player)
 
     #item is InventoryItem
@@ -30,12 +31,12 @@ class Player:
         return True
 
     #item is Item
-    def buy_item(self, item):
-        if self.gold - item.price < 0:
+    def buy_item(self, item, multiplier=1):
+        if self.gold - (item.price * multiplier) < 0:
             return False
         else:
             self.inventory.add(item)
-            self.gold -= item.price
+            self.gold -= (item.price * multiplier)
             return True
 
     def use_item(self, item):
@@ -46,8 +47,7 @@ class Player:
             self.replace_gear(item)
         elif item.item.type == "special":
             if item.item.name == "Portal":
-                pass #portal code 
-
+                pass
         self.drop_item(item)
 
     def drop_item(self, item):

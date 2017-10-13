@@ -1,6 +1,8 @@
 #!/usr/bin/env python3.5
 class Inventory():
-    def __init__(self, items=[]):
+    def __init__(self, items=None):
+        if items is None:
+          items = []
         self.items = items
 
     def add(self, newItem, amount=1):
