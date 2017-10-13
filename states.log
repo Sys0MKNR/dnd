@@ -727,3 +727,9 @@
 2017-10-13 11:35:33,131 - helper.StateHandler - INFO - Entry Point: Start
 2017-10-13 11:35:33,132 - helper.StateHandler - INFO - Next state: List
 2017-10-13 11:35:33,132 - helper.StateHandler - INFO - Next state: Choose
+2017-10-13 11:41:31,094 - helper.StateHandler - INFO - Next state: NoneType
+2017-10-13 11:41:31,094 - helper.StateHandler - INFO - Next state: Start
+2017-10-13 11:41:31,094 - helper.StateHandler - INFO - Next state: List
+2017-10-13 11:41:31,094 - helper.StateHandler - INFO - Next state: Choose
+2017-10-13 11:41:32,902 - helper.StateHandler - INFO - Next state: Quit
+2017-10-13 11:41:34,054 - helper.StateHandler - INFO - Next state: NoneType

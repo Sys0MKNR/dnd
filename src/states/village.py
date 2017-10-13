@@ -35,7 +35,10 @@ class List (State):
         print("Your destinations are:")
 
         for key, opt in sorted(gamedata.village['opts'].items()):
-            print("{0}\t{1}".format(key, opt["name"]))        
+            print("{0}\t{1}".format(key, opt["name"]))       
+
+        if gamedata.bonus:
+            print("7\t Chest") 
 
         return CHOOSE, gamedata
         
@@ -48,13 +51,24 @@ class Choose (State):
         success, value = util.validate_input(str, False, 1,)
         print(success)
         if success:
+
+            if gamedata.bonus 
+                if value == '7':
+                    pass
+                    #kistencode
+                elif value == '8':
+                    pass
+                    #totengräber
+                    
+                return START, gamedata
+
             opt = gamedata.village['opts'][value]
             try:
                 if opt['obj']:
                     getattr(gamedata.player, opt['action'])()
 
             except KeyError as err:
-
+                
                 if opt['class']:                    
                     c = getattr(sys.modules[__name__], opt['class'])
                     success, gamedata = c().run(*parseParams(opt['params'], gamedata))    
