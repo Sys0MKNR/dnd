@@ -122,18 +122,8 @@ class Villager():
         try:
             gamedata = set_active_villager(gamedata, name)
             gamedata = Handler(gamedata).run()
-            print(gamedata.player.gold)
             return True, gamedata
         except Exception as e:
-            print(e)
             return False, gamedata
 
 
-if __name__ == '__main__':
-    gamedata = GameData()
-    gamedata.player = util.load_player('player.json')
-    gamedata.activeVillager = gamedata.village['villager'][1]
-    gamedata = Handler(gamedata).run()
-    print(gamedata.player.gold)
-    # print(gamedata.activeVillager)
-    # List().run(gamedata)

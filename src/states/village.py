@@ -213,11 +213,6 @@ class Village():
             gamedata = Handler(gamedata).run()
             return True, gamedata
         except Exception as err:
-            print(err)
             return False, gamedata
 
 
-if __name__ == '__main__':
-    gamedata = GameData()
-    gamedata.player = util.load_player()
-    Handler(gamedata).run()

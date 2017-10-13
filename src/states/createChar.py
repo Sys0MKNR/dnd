@@ -158,6 +158,3 @@ class CreateChar():
             return False, gamedata
         
 
-if __name__ == '__main__':
-    gamedata = GameData()
-    Handler(gamedata).run()

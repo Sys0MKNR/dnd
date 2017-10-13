@@ -46,8 +46,7 @@ class Player:
         elif item.item.type == "gear":
             self.replace_gear(item)
         elif item.item.type == "special":
-            if item.item.name == "Portal":
-                pass
+            pass
         self.drop_item(item)
 
     def drop_item(self, item):
@@ -58,7 +57,6 @@ class Player:
         self.inventory.add(item)
     
     def replace_gear(self, item):
-        print(self.gear)
         oldGear = getattr(self.gear, item.item.gearType)
         inf_attr = item.item.influenced_attribute
         if oldGear:

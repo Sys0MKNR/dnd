@@ -386,11 +386,5 @@ class Dungeon():
             gamedata = Handler(gamedata).run()
             return True, gamedata
         except Exception as e:
-            print(e)
             return False, gamedata
         
-
-if __name__ == '__main__':
-    gamedata = GameData()
-    gamedata.player = util.load_player('player.json')
-    Dungeon().run(gamedata)

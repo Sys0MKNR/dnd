@@ -8,7 +8,6 @@ from states.village import Village
 
 class Game():
     def __init__(self, args):
-        print(args)
         gamedata = GameData()
 
         if args.bonus:
