@@ -7,6 +7,7 @@ from game.player import Player
 from game.gamedata import GameData
 from helper.State import State
 from states.villager import Villager
+from states.dungeon import Dungeon
 
 
 # define States
@@ -54,10 +55,10 @@ class Choose (State):
 
             except KeyError as err:
 
-                if(opt['class']):                    
+                if opt['class']:                    
                     c = getattr(sys.modules[__name__], opt['class'])
                     success, gamedata = c().run(*parseParams(opt['params'], gamedata))    
-        
+                    
                 else: 
                     return getattr(sys.modules[__name__], opt['callback']), gamedata               
                 

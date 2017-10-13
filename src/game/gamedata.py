@@ -10,3 +10,4 @@ class GameData:
     self.activeVillager = None
     self.quitting = False
     self.dungeon = None
+    self.bonus = False

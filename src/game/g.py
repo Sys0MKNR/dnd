@@ -3,12 +3,16 @@
 import helper.util as util
 from states.createChar import CreateChar
 from game.gamedata import GameData
+from states.village import Village
 
 
 class Game():
     def __init__(self, args):
         print(args)
         gamedata = GameData()
+
+        if args.bonus:
+            gamedata.bonus = True
         if args.create_player:
             succes, gamedata = CreateChar().run(gamedata)
         elif args.savefile:
@@ -21,6 +25,6 @@ class Game():
             print("usage: python3.5 main.py [--savefile SAVEFILE] [--create-player]")
             return
 
-        Village.
+        Village().run(gamedata)
 
         

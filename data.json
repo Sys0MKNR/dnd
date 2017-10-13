@@ -228,6 +228,11 @@
             "value": 6,
             "type": "gear",
             "gearType": "head"
+        },
+        {
+            "name": "portal",
+            "price": 100,
+            "type": "special"
         }
     ],
     "dungeon": {

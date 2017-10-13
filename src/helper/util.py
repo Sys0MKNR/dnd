@@ -5,7 +5,6 @@ from game.player import Player
 from game.item import Item
 from game.inventory import Inventory
 from game.inventory import InventoryItem
-from game.attributes import Attributes
 from game.gear import Gear
 
 
@@ -54,10 +53,10 @@ def validate_item_input(items):
 
 def print_character(character):
   print("Name: {0}".format(character.name))
-  print("\tStrength: {0}".format(character.attributes.strength))
-  print("\tAgility: {0}".format(character.attributes.agility))
-  print("\tSpeed: {0}".format(character.attributes.speed))
-  print("\tDefense: {0}".format(character.attributes.defense))
+  print("\tStrength: {0}".format(character.strength))
+  print("\tAgility: {0}".format(character.agility))
+  print("\tSpeed: {0}".format(character.speed))
+  print("\tDefense: {0}".format(character.defense))
 
 def load_data(savefile="data.json"):
   fp = open(savefile, "r")
@@ -84,7 +83,8 @@ def load_player(savefile="player.json"):
   for inventoryItem in player.inventory['items']:
     inventory.add(Item(**inventoryItem['item']), inventoryItem['amount']) 
   player.inventory = inventory
-   
+  
+  print(player.gear)
   gearTypes = {}
   for key, value in player.gear.items():
     gearTypes[key] = Item(**value) if value else None 

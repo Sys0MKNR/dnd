@@ -1,6 +1,5 @@
 #!/usr/bin/env python3.5
 
-from game.attributes import Attributes
 from game.inventory import Inventory
 from game.gear import Gear
 
@@ -20,7 +19,7 @@ class Player:
         self.gold = 100
         self.hp = 100
         self.inventory = Inventory()
-        self.gear = Gear(),
+        self.gear = Gear()
         self.hits = 0
         self.__dict__.update(player)
 
@@ -45,6 +44,9 @@ class Player:
             setattr(self, item.item.influenced_attribute, oldValue + item.item.value)
         elif item.item.type == "gear":
             self.replace_gear(item)
+        elif item.item.type == "special":
+            if item.item.name == "Portal":
+                pass #portal code 
 
         self.drop_item(item)
 

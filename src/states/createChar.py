@@ -18,7 +18,7 @@ def askForStat(stat):
             pass
 
 def checkStatPoints(player):
-    if (player.attributes.strength + player.attributes.agility + player.attributes.speed + player.attributes.defense) <= 100:
+    if (player.strength + player.agility + player.speed + player.defense) <= 100:
         return True
     else:
         return False
@@ -36,7 +36,7 @@ class Start(State):
         print("{0} is the name you want to choose?".format(name))
         while True:
             try:
-                correct = util.isThisCorrect()
+                correct = util.is_this_correct()
                 if correct:
                     gamedata.player = Player()
                     gamedata.player.name = name
@@ -55,8 +55,8 @@ class Start(State):
 
 class Strength (State):
     def run(self, gamedata):
-        print("You have 100 points to assign to your character.\n Start now to assign those Points to your characters strength, agility, speed and defense.")
-        gamedata.player.attributes.strength = askForStat("Strength")
+        print("You have 100 points to assign to your character.\nStart now to assign those Points to your characters strength, agility, speed and defense.")
+        gamedata.player.strength = askForStat("Strength")
         return AGILITY, gamedata
       
     def next(self, next_state):
@@ -64,7 +64,7 @@ class Strength (State):
 
 class Agility (State):
     def run(self, gamedata):
-        gamedata.player.attributes.agility = askForStat("Agility")
+        gamedata.player.agility = askForStat("Agility")
         return SPEED, gamedata
       
     def next(self, next_state):
@@ -72,7 +72,7 @@ class Agility (State):
 
 class Speed (State):
     def run(self, gamedata):
-        gamedata.player.attributes.speed = askForStat("Speed")
+        gamedata.player.speed = askForStat("Speed")
         return DEFENSE, gamedata
       
     def next(self, next_state):
@@ -80,7 +80,7 @@ class Speed (State):
 
 class Defense (State):
     def run(self, gamedata):
-        gamedata.player.attributes.defense = askForStat("Defense")
+        gamedata.player.defense = askForStat("Defense")
         if(checkStatPoints(gamedata.player)):
             return CONFIRM, gamedata
         else:
@@ -99,7 +99,7 @@ class Confirm (State):
         util.print_character(gamedata.player)
         while True:
             try:
-                correct = util.isThisCorrect()
+                correct = util.is_this_correct()
                 if correct:
                     return STORE, gamedata
                 else:

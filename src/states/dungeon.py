@@ -140,15 +140,15 @@ def attack(attacker, defender):
 
     totalAgility = attacker.agility + defender.agility
     try:
-        agilityPercentage = attacker.agility / totalAgility
+        agilityPercentage = attacker.agility / totalAgility * 0.3
         if random.random() < agilityPercentage:
             return False, 0
         else:
-            damageToEnemy = gamedata.player.strength - lower_defense(defender.defense, defender.hits)  
+            damageToEnemy = attacker.strength - lower_defense(defender.defense, defender.hits)  
             if damageToEnemy > 0:
                 return True, damageToEnemy
     except ZeroDivisionError:
-        damageToEnemy = gamedata.player.strength - lower_defense(defender.defense, defender.hits)  
+        damageToEnemy = attacker.strength - lower_defense(defender.defense, defender.hits)  
         if damageToEnemy > 0:
             return True, damageToEnemy
     return True, 0
@@ -164,6 +164,9 @@ class Fight(State):
                     gamedata.player.hits += 1
                     gamedata.player.hp -= damage
                     print("{0} hit you and dealt {1} damage.".format(enemy.type, damage))
+                    if gamedata.player.hp <= 0: 
+                        dead = True
+                        break
 
         while True:
             enemiesDead = True
@@ -175,11 +178,11 @@ class Fight(State):
                 gamedata.player.hits = 0
                 print("You killed all enemies in this room.")
                 gamedata.dungeon.activeRoom.clear = True
-                return MENU, gamedata
+                break
             print('Which enemy would you like to attack?')
             print('Your hp: {0}'.format(gamedata.player.hp))
             success, value = util.validate_input(int, 1, None)
-            if success:
+            if success and value <= index:
                 enemy = gamedata.dungeon.activeRoom.enemies[value]
                 if enemy.hp <= 0:
                     continue
@@ -203,6 +206,8 @@ class Fight(State):
                             if gamedata.player.hp <= 0: 
                                 dead = True
                                 break
+                else: 
+                    print("You didn't hit the enemy.")
         if dead: 
             gamedata.dungeon = None
             gamedata.player.inventory = Inventory()
@@ -212,8 +217,8 @@ class Fight(State):
             print("You died. You will return to the village.")
             return EXIT, gamedata
         else:
-            if gamedata.activeRoom.enemies[0].type == 'boss':
-                print('success')
+            if gamedata.dungeon.activeRoom.type == 'boss':
+                print("You survived the dungeon. Now you will return to the village.")
                 return SUCCESS, gamedata
             else:
                 return MENU, gamedata
@@ -223,7 +228,9 @@ class Fight(State):
         if next_state == MENU:
             return States['Menu']
         elif next_state == EXIT:
-            return States['Exit']   
+            return States['Exit']
+        elif next_state == SUCCESS:
+            return States['Success']
 
 class Inventory(State):
     def run(self, gamedata):
@@ -239,9 +246,9 @@ class Success(State):
         loot = random.choice(ITEMS)
         print("The boss dropped {0}.".format(loot.name))
         gamedata.player.add_item(loot)
-        return None, gamedata
+        return EXIT, gamedata
     def next(self, next_state):
-        pass   
+        return States['Exit']   
 
 class Exit(State):
     def run(self, gamedata):
@@ -368,6 +375,7 @@ class Enemy():
 class Dungeon():
     def run(self, gamedata):
 
+
         try:
             self.text = random.choice(DUNGEON['texts'])
             self.rooms = generateDungeon(gamedata)
@@ -380,10 +388,7 @@ class Dungeon():
         except Exception as e:
             print(e)
             return False, gamedata
-
-
-
-
+        
 
 if __name__ == '__main__':
     gamedata = GameData()
