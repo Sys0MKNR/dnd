@@ -74,12 +74,12 @@ das dorf ist der main Statehandler
 # fight
 
 mehrere Gegner Typen
-    orc 
-    witch
-    human
-    nord
-    nazi-zombie
-    unicorn
+    orc(20-30)
+    witch(40-60)
+    human(30-40)
+    nord(35-45)
+    nazi-zombie(40-50)
+    unicorn(50-60)
 
 speed entscheidet wer als erstes angreift
 

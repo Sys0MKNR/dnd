@@ -5,7 +5,9 @@
                 "name": "Dungeon",
                 "class": "Dungeon",
                 "action": "run",
-                "params": ["standard"],
+                "params": [
+                    "standard"
+                ],
                 "callback": "START"
             },
             "1": {
@@ -13,27 +15,38 @@
                 "class": null,
                 "obj": "player",
                 "action": "open_inventory",
-                "params": ["standard"]
+                "params": [
+                    "standard"
+                ]
             },
             "2": {
                 "name": "Retailer",
                 "class": "Villager",
                 "action": "run",
-                "params": ["standard","Retailer"],
+                "params": [
+                    "standard",
+                    "Retailer"
+                ],
                 "callback": "START"
             },
             "3": {
                 "name": "Smith",
                 "class": "Villager",
                 "action": "run",
-                "params": ["standard", "Smith"],
+                "params": [
+                    "standard",
+                    "Smith"
+                ],
                 "callback": "START"
             },
             "4": {
                 "name": "Druid",
                 "class": "Villager",
                 "action": "run",
-                "params": ["standard", "Druid"],
+                "params": [
+                    "standard",
+                    "Druid"
+                ],
                 "callback": "START"
             },
             "5": {
@@ -58,21 +71,34 @@
                 "items": "potion",
                 "welcome": {
                     "text": "Welcome to the store {0}!\nYou have {1} gold to spend on magic potions.",
-                    "params": ["player.name", "player.gold"]
+                    "params": [
+                        "player.name",
+                        "player.gold"
+                    ]
                 },
                 "choose": "Type 'quit' or the name of the item you want to buy:",
                 "listmsg": "This is what I'm selling:",
                 "list": {
                     "text": "{0}\t{1} gold +{2} {3}",
-                    "params": ["item.name", "item.price", "item.value", "item.influenced_attribute"]
+                    "params": [
+                        "item.name",
+                        "item.price",
+                        "item.value",
+                        "item.influenced_attribute"
+                    ]
                 },
                 "success": {
                     "text": "You have choosen {0}. You have {1} gold left.",
-                    "params": ["item.name", "player.gold"]
+                    "params": [
+                        "item.name",
+                        "player.gold"
+                    ]
                 },
                 "error": {
                     "text": "You dont have enough gold left. You have {0} gold left.",
-                    "params": ["player.gold"]
+                    "params": [
+                        "player.gold"
+                    ]
                 },
                 "leave": "Thanks for visiting!"
             },
@@ -82,21 +108,34 @@
                 "items": "gear",
                 "welcome": {
                     "text": "Welcome to the store {0}!\nYou have {1} gold to spend on gear. ",
-                    "params": ["player.name", "player.gold"]
+                    "params": [
+                        "player.name",
+                        "player.gold"
+                    ]
                 },
                 "listmsg": "This is what I'm selling:",
                 "list": {
                     "text": "{0}\t{1} gold +{2} {3}",
-                    "params": ["item.name", "item.price", "item.value", "item.influenced_attribute"]
+                    "params": [
+                        "item.name",
+                        "item.price",
+                        "item.value",
+                        "item.influenced_attribute"
+                    ]
                 },
                 "choose": "Type 'quit' or the name of the item you want to buy:",
                 "success": {
                     "text": "You have choosen {0}. You have {1} gold left.",
-                    "params": ["item.name", "player.gold"]
+                    "params": [
+                        "item.name",
+                        "player.gold"
+                    ]
                 },
                 "error": {
                     "text": "You dont have enough gold left. You have {0} gold left.",
-                    "params": ["player.gold"]
+                    "params": [
+                        "player.gold"
+                    ]
                 },
                 "leave": "Thanks for visiting!"
             },
@@ -106,27 +145,37 @@
                 "items:": "all",
                 "welcome": {
                     "text": "Welcome to the Retailer {0}! \nYou have {1} gold.",
-                    "params": ["player.name", "player.gold"]
+                    "params": [
+                        "player.name",
+                        "player.gold"
+                    ]
                 },
                 "listmsg": "This is what I would pay for your Items:",
                 "list": {
                     "text": "* {0}\tfor\t{1} gold",
-                    "params": ["item.name", "item.price"]
+                    "params": [
+                        "item.name",
+                        "item.price"
+                    ]
                 },
                 "choose": "Type 'quit' or the name of the item you want to sell:",
                 "success": {
                     "text": "You have choosen {0}.\n You now have {1} gold.\n Removed item from Inventory.",
-                    "params": ["item.name", "player.gold"]
+                    "params": [
+                        "item.name",
+                        "player.gold"
+                    ]
                 },
                 "error": {
                     "text": "Sorry, you have nothing to sell",
-                    "params": ["player.gold"]
+                    "params": [
+                        "player.gold"
+                    ]
                 },
                 "leave": "Thanks for visiting!"
             }
         ]
     },
-   
     "items": [
         {
             "name": "Potion",
@@ -185,6 +234,32 @@
         "texts": [
             "It is a fucking dungeon. What did you expect? Narnia?",
             "Also a dungeon."
-        ]
+        ],
+        "enemies": {
+            "orc": {
+                "from": 5,
+                "to": 10
+            },
+            "witch": {
+                "from": 20,
+                "to": 25
+            },
+            "Human": {
+                "from": 10,
+                "to": 15
+            },
+            "Nord": {
+                "from": 15,
+                "to": 18
+            },
+            "Nazi-Zombie": {
+                "from": 15,
+                "to": 18
+            },
+            "Unicorn": {
+                "from": 25,
+                "to": 30
+            }
+        }
     }
 }

@@ -1,1 +1,68 @@
-{"name": "peter", "speed": 0, "xp": 0, "defense": 8, "hp": 100, "inventory": {"items": [{"amount": 1, "item": {"name": "Chest", "type": "gear", "value": 2, "price": 5, "influenced_attribute": "defense", "gearType": "body"}, "name": "Chest"}, {"amount": 1, "item": {"name": "Sword", "type": "gear", "value": 4, "price": 10, "influenced_attribute": "strength", "gearType": "weapon"}, "name": "Sword"}]}, "gear": {"body": {"name": "Chest", "type": "gear", "value": 2, "price": 5, "influenced_attribute": "defense", "gearType": "body"}, "head": {"name": "Helmet", "type": "gear", "value": 6, "price": 15, "influenced_attribute": "defense", "gearType": "head"}, "weapon": {"name": "Sword", "type": "gear", "value": 4, "price": 10, "influenced_attribute": "strength", "gearType": "weapon"}, "leg": null}, "agility": 0, "type": "", "special": 0, "gold": 1111117, "lvl": 1, "strength": 4}
+{
+    "name": "peter",
+    "speed": 0,
+    "xp": 0,
+    "defense": 8,
+    "hp": 100,
+    "inventory": {
+        "items": [
+            {
+                "amount": 1,
+                "item": {
+                    "name": "Chest",
+                    "type": "gear",
+                    "value": 2,
+                    "price": 5,
+                    "influenced_attribute": "defense",
+                    "gearType": "body"
+                },
+                "name": "Chest"
+            },
+            {
+                "amount": 1,
+                "item": {
+                    "name": "Sword",
+                    "type": "gear",
+                    "value": 4,
+                    "price": 10,
+                    "influenced_attribute": "strength",
+                    "gearType": "weapon"
+                },
+                "name": "Sword"
+            }
+        ]
+    },
+    "gear": {
+        "body": {
+            "name": "Chest",
+            "type": "gear",
+            "value": 2,
+            "price": 5,
+            "influenced_attribute": "defense",
+            "gearType": "body"
+        },
+        "head": {
+            "name": "Helmet",
+            "type": "gear",
+            "value": 6,
+            "price": 15,
+            "influenced_attribute": "defense",
+            "gearType": "head"
+        },
+        "weapon": {
+            "name": "Sword",
+            "type": "gear",
+            "value": 4,
+            "price": 10,
+            "influenced_attribute": "strength",
+            "gearType": "weapon"
+        },
+        "leg": null
+    },
+    "agility": 0,
+    "type": "",
+    "special": 0,
+    "gold": 1111117,
+    "lvl": 1,
+    "strength": 4
+}

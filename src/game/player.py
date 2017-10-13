@@ -20,7 +20,8 @@ class Player:
         self.gold = 100
         self.hp = 100
         self.inventory = Inventory()
-        self.gear = Gear()
+        self.gear = Gear(),
+        self.hits = 0
         self.__dict__.update(player)
 
     #item is InventoryItem

@@ -1,163 +1,163 @@
-# #!/usr/bin/env python3.5
-# import json
-# import helper.util as util
-# from helper.StateHandler import StateHandler
-# from game.player import Player
-# from game.gamedata import GameData
-# from helper.State import State
+#!/usr/bin/env python3.5
+import json
+import helper.util as util
+from helper.StateHandler import StateHandler
+from game.player import Player
+from game.gamedata import GameData
+from helper.State import State
 
-# # define States
-# START, STRENGTH, AGILITY, SPEED, DEFENSE, CONFIRM, STORE = range(7)
+# define States
+START, STRENGTH, AGILITY, SPEED, DEFENSE, CONFIRM, STORE = range(7)
 
-# def askForStat(stat):
-#     while True:
-#         try:
-#             value = int(input(stat+"> "))
-#             return value
-#         except ValueError as err:
-#             pass
+def askForStat(stat):
+    while True:
+        try:
+            value = int(input(stat+"> "))
+            return value
+        except ValueError as err:
+            pass
 
-# def checkStatPoints(player):
-#     if (player.attributes.strength + player.attributes.agility + player.attributes.speed + player.attributes.defense) <= 100:
-#         return True
-#     else:
-#         return False
+def checkStatPoints(player):
+    if (player.attributes.strength + player.attributes.agility + player.attributes.speed + player.attributes.defense) <= 100:
+        return True
+    else:
+        return False
 
-# class Start(State):
-#     def run(self, gamedata):
-#         print("Welcome to P0 Dungeon Quest character creator")
-#         print("Give us a name to call you:")
+class Start(State):
+    def run(self, gamedata):
+        print("Welcome to P0 Dungeon Quest character creator")
+        print("Give us a name to call you:")
         
-#         while True:
-#             name = input("> ")
-#             if name:
-#                 break
+        while True:
+            name = input("> ")
+            if name:
+                break
         
-#         print("{0} is the name you want to choose?".format(name))
-#         while True:
-#             try:
-#                 correct = util.isThisCorrect()
-#                 if correct:
-#                     gamedata.player = Player()
-#                     gamedata.player.name = name
-#                     return STRENGTH, gamedata
-#                 else:
-#                     return START, gamedata
+        print("{0} is the name you want to choose?".format(name))
+        while True:
+            try:
+                correct = util.isThisCorrect()
+                if correct:
+                    gamedata.player = Player()
+                    gamedata.player.name = name
+                    return STRENGTH, gamedata
+                else:
+                    return START, gamedata
                     
-#             except ValueError as err:
-#                 print("Please enter Y/y for yes or N/n for no!")
+            except ValueError as err:
+                print("Please enter Y/y for yes or N/n for no!")
 
-#     def next(self, next_state):
-#         if next_state == START:
-#             return States['Start']
-#         elif next_state == STRENGTH:
-#             return States['Strength']
+    def next(self, next_state):
+        if next_state == START:
+            return States['Start']
+        elif next_state == STRENGTH:
+            return States['Strength']
 
-# class Strength (State):
-#     def run(self, gamedata):
-#         print("You have 100 points to assign to your character.\n Start now to assign those Points to your characters strength, agility, speed and defense.")
-#         gamedata.player.attributes.strength = askForStat("Strength")
-#         return AGILITY, gamedata
+class Strength (State):
+    def run(self, gamedata):
+        print("You have 100 points to assign to your character.\n Start now to assign those Points to your characters strength, agility, speed and defense.")
+        gamedata.player.attributes.strength = askForStat("Strength")
+        return AGILITY, gamedata
       
-#     def next(self, next_state):
-#         return States['Agility']
+    def next(self, next_state):
+        return States['Agility']
 
-# class Agility (State):
-#     def run(self, gamedata):
-#         gamedata.player.attributes.agility = askForStat("Agility")
-#         return SPEED, gamedata
+class Agility (State):
+    def run(self, gamedata):
+        gamedata.player.attributes.agility = askForStat("Agility")
+        return SPEED, gamedata
       
-#     def next(self, next_state):
-#         return States['Speed']
+    def next(self, next_state):
+        return States['Speed']
 
-# class Speed (State):
-#     def run(self, gamedata):
-#         gamedata.player.attributes.speed = askForStat("Speed")
-#         return DEFENSE, gamedata
+class Speed (State):
+    def run(self, gamedata):
+        gamedata.player.attributes.speed = askForStat("Speed")
+        return DEFENSE, gamedata
       
-#     def next(self, next_state):
-#         return States['Defense']
+    def next(self, next_state):
+        return States['Defense']
 
-# class Defense (State):
-#     def run(self, gamedata):
-#         gamedata.player.attributes.defense = askForStat("Defense")
-#         if(checkStatPoints(gamedata.player)):
-#             return CONFIRM, gamedata
-#         else:
-#             print("Sorry it seems like you spent more than 100 abillity points on your character... try that again!")
-#             return STRENGTH, gamedata
+class Defense (State):
+    def run(self, gamedata):
+        gamedata.player.attributes.defense = askForStat("Defense")
+        if(checkStatPoints(gamedata.player)):
+            return CONFIRM, gamedata
+        else:
+            print("Sorry it seems like you spent more than 100 abillity points on your character... try that again!")
+            return STRENGTH, gamedata
       
-#     def next(self, next_state):
-#         if next_state == CONFIRM:
-#             return States['Confirm']
-#         elif next_state == STRENGTH:
-#             return States['Strength']
+    def next(self, next_state):
+        if next_state == CONFIRM:
+            return States['Confirm']
+        elif next_state == STRENGTH:
+            return States['Strength']
 
-# class Confirm (State):
-#     def run(self, gamedata):
-#         print("Before you store your character please confirm your stats!")
-#         util.print_character(gamedata.player)
-#         while True:
-#             try:
-#                 correct = util.isThisCorrect()
-#                 if correct:
-#                     return STORE, gamedata
-#                 else:
-#                     return START, gamedata
+class Confirm (State):
+    def run(self, gamedata):
+        print("Before you store your character please confirm your stats!")
+        util.print_character(gamedata.player)
+        while True:
+            try:
+                correct = util.isThisCorrect()
+                if correct:
+                    return STORE, gamedata
+                else:
+                    return START, gamedata
                     
-#             except ValueError as err:
-#                 print("Please enter Y/y for yes or N/n for no!")
+            except ValueError as err:
+                print("Please enter Y/y for yes or N/n for no!")
 
-#     def next(self, next_state):
-#         if next_state == START:
-#             return States['Start']
-#         elif next_state == STORE:
-#             return States['Store']
+    def next(self, next_state):
+        if next_state == START:
+            return States['Start']
+        elif next_state == STORE:
+            return States['Store']
 
-# class Store(State):
-#   def run (self, gamedata):
-#     with open("player.json", "w") as outfile:
-#       json.dump(gamedata.player, outfile, cls=util.CustomEncoder)
-#     return None, gamedata
+class Store(State):
+  def run (self, gamedata):
+    with open("player.json", "w") as outfile:
+      json.dump(gamedata.player, outfile, cls=util.CustomEncoder)
+    return None, gamedata
 
-#   def next(self, next_state):
-#     pass
-
-
-
-# States = {
-#     'Start': Start(),
-#     'Strength': Strength(),
-#     'Agility': Agility(),
-#     'Speed': Speed(),
-#     'Defense': Defense(),
-#     'Confirm': Confirm(),
-#     'Store': Store()
-# }
-
-# class Quit(State):
-#     def run(self, gamedata):
-#         return None, gamedata
-
-#     def next(self, x):
-#         pass
+  def next(self, next_state):
+    pass
 
 
-# class Handler(StateHandler):
-#     def __init__(self, gamedata):
-#         statesList = list(States.values())
-#         StateHandler.__init__(self, States["Start"], statesList,
-#                               Quit(), gamedata)
 
-# class CreateChar():
-#     def run(self, gamedata):
-#         try:
-#             Handler(gamedata).run()
-#             return True, gamedata
-#         except:
-#             return False, gamedata
+States = {
+    'Start': Start(),
+    'Strength': Strength(),
+    'Agility': Agility(),
+    'Speed': Speed(),
+    'Defense': Defense(),
+    'Confirm': Confirm(),
+    'Store': Store()
+}
+
+class Quit(State):
+    def run(self, gamedata):
+        return None, gamedata
+
+    def next(self, x):
+        pass
+
+
+class Handler(StateHandler):
+    def __init__(self, gamedata):
+        statesList = list(States.values())
+        StateHandler.__init__(self, States["Start"], statesList,
+                              Quit(), gamedata)
+
+class CreateChar():
+    def run(self, gamedata):
+        try:
+            Handler(gamedata).run()
+            return True, gamedata
+        except:
+            return False, gamedata
         
 
-# if __name__ == '__main__':
-#     gamedata = GameData()
-#     Handler(gamedata).run()
+if __name__ == '__main__':
+    gamedata = GameData()
+    Handler(gamedata).run()
